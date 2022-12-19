@@ -2,8 +2,12 @@ import pandas as pd
 import requests
 import boto3
 
-dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
-table = dynamodb.Table('translations')
+dynamodb = boto3.resource('dynamodb',
+                          aws_access_key_id='AKIAZYES2ALXHKRO7S3M',
+                          aws_secret_access_key='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',
+                          region_name='us-east-2'
+                          )
+table = dynamodb.Table('translations2')
 
 def get_translation_en_to_fr(string):
     response = table.get_item(
@@ -30,5 +34,6 @@ def executeMpi(data):
         "proxies": []}
         
         response = requests.request("POST", url,  json=querystring)
-        finalResult = [str(response.json()['translation'])]
+        finalResult = response.json()['translation']
+        # print("from api")
     return str(finalResult)
