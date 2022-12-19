@@ -53,3 +53,32 @@ status:
         current:
           averageUtilization: 0
           averageValue: 0
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    run: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: backend-deployment
+  template:
+    metadata:
+      labels:
+        run: backend-deployment
+    spec:
+      containers:
+        - name: backend-deployment
+          image: registry.k8s.io/hpa-example
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+            requests:
+              cpu: 200m
+      restartPolicy: Always
